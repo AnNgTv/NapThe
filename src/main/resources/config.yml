@@ -1,0 +1,19 @@
+# Cấu hình API
+api:
+  provider: "THESIEUTOC"
+  key: "your-api-key-here"
+  secret: "your-callback-secret"
+
+# Cấu hình quy đổi (Ví dụ: 10,000 VND = 100 Points)
+conversion-rate: 0.01
+
+# Lệnh sẽ thực thi khi nạp thành công
+rewards:
+  - "points give %player% %amount_fixed%"
+  - "broadcast §aNgười chơi %player% vừa nạp thành công thẻ %value%!"
+
+messages:
+  pending: "§eThẻ đang được xử lý, vui lòng đợi..."
+  success: "§aNạp thẻ thành công! Bạn nhận được %points% points."
+  failed: "§cThẻ sai hoặc đã được sử dụng!"
+  
