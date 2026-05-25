@@ -5,31 +5,50 @@ import com.yourname.napthe.api.Callback;
 import com.yourname.napthe.models.CardEntry;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.CompletableFuture;
 
 public class TheSieuTocAPI implements CardProvider {
     private final String apiKey = "YOUR_API_KEY";
 
     @Override
     public void sendCard(CardEntry card, Callback callback) {
-        HttpClient client = HttpClient.newHttpClient();
-        String url = "https://thesieutoc.net/chargingws/v2?APIkey=" + apiKey 
+        String urlString = "https://thesieutoc.net/chargingws/v2?APIkey=" + apiKey 
                     + "&type=" + card.getType() + "&menhgia=" + card.getAmount() 
                     + "&seri=" + card.getSerial() + "&pin=" + card.getPin();
 
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
+        CompletableFuture.runAsync(() -> {
+            try {
+                URL url = new URL(urlString);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("User-Agent", "Mozilla/5.0");
 
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-            .thenAccept(res -> {
-                JsonObject json = new Gson().fromJson(res.body(), JsonObject.class);
-                if (json.get("status").getAsInt() == 00) {
-                    callback.onSuccess(json.get("amount").getAsInt());
+                int responseCode = conn.getResponseCode();
+                if (responseCode == 200) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String inputLine;
+                    StringBuilder response = new StringBuilder();
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    JsonObject json = new Gson().fromJson(response.toString(), JsonObject.class);
+                    if (json.get("status").getAsInt() == 0) {
+                        callback.onSuccess(json.get("amount").getAsInt());
+                    } else {
+                        callback.onFailure(json.get("msg").getAsString());
+                    }
                 } else {
-                    callback.onFailure(json.get("msg").getAsString());
+                    callback.onFailure("HTTP Error: " + responseCode);
                 }
-            });
+            } catch (Exception e) {
+                callback.onFailure(e.getMessage());
+            }
+        });
     }
 }
