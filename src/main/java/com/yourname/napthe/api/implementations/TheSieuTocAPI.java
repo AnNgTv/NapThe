@@ -12,7 +12,11 @@ import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 public class TheSieuTocAPI implements CardProvider {
-    private final String apiKey = "YOUR_API_KEY";
+    private final String apiKey;
+
+    public TheSieuTocAPI(String apiKey) {
+        this.apiKey = apiKey;
+    }
 
     @Override
     public void sendCard(CardEntry card, Callback callback) {

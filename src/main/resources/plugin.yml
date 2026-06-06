@@ -3,3 +3,8 @@ version: 1.0
 main: com.yourname.napthe.NapThePlugin
 author: AnNgTv
 description: Plugin nạp thẻ hỗ trợ Java 8+
+
+commands:
+  napthe:
+    description: Lệnh nạp thẻ
+    usage: /napthe <loại> <mệnh giá> <seri> <mã thẻ>

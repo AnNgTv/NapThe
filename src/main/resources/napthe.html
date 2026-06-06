@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nạp Thẻ Minecraft</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 300px; }
+        .field { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        input, select { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Nạp Thẻ Server</h2>
+        <form id="naptheForm">
+            <div class="field">
+                <label>Tên người chơi:</label>
+                <input type="text" name="player" required>
+            </div>
+            <div class="field">
+                <label>Loại thẻ:</label>
+                <select name="type">
+                    <option value="VIETTEL">Viettel</option>
+                    <option value="MOBIFONE">Mobifone</option>
+                    <option value="VINAPHONE">Vinaphone</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Mệnh giá:</label>
+                <select name="amount">
+                    <option value="10000">10,000đ</option>
+                    <option value="20000">20,000đ</option>
+                    <option value="50000">50,000đ</option>
+                    <option value="100000">100,000đ</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Số seri:</label>
+                <input type="text" name="serial" required>
+            </div>
+            <div class="field">
+                <label>Mã thẻ (Pin):</label>
+                <input type="text" name="pin" required>
+            </div>
+            <button type="submit">Gửi Thẻ</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('naptheForm').onsubmit = function(e) {
+            e.preventDefault();
+            alert('Thông tin đã được gửi! Vui lòng kiểm tra trong game sau ít phút.');
+            // Ở đây bạn sẽ gửi dữ liệu này tới API của TheSieuToc hoặc backend của bạn.
+            // Sau khi API xử lý xong, nó sẽ gửi callback về plugin Minecraft.
+        };
+    </script>
+</body>
+</html>

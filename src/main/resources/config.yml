@@ -4,6 +4,12 @@ api:
   key: "your-api-key-here"
   secret: "your-callback-secret"
 
+# Cấu hình Web Callback
+web:
+  enabled: true
+  port: 8080
+  path: "/callback"
+
 # Cấu hình quy đổi (Ví dụ: 10,000 VND = 100 Points)
 conversion-rate: 0.01
 
